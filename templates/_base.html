@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="{% block page_language %}ru{% endblock %}">
+<head>
+    <title>{% block title %}Ninjaside blog{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description=" content="{% block meta_description %}Ninjaside - modern web technologies{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}web dev, python, javascript{% endblock %}">
+    <meta name="author" content="Alex Istinspring">
+    {% block meta_for_no_index %}{% endblock %}
+
+    {%- if config.CDN_STATIC %}
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    {%- else %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>
+    {%- endif %}
+    {%- if config.CDN_STATIC %}
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+    {%- else %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    {%- endif %}
+    {%- if config.CDN_STATIC %}
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.pjax/1.7.0/jquery.pjax.min.js"></script>
+    {%- else %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.pjax.js') }}"></script>
+    {%- endif %}
+    <script type="text/javascript" src="{{ url_for('static', filename='js/meny.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/application.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+    {%- if config.CDN_STATIC %}
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css" />
+    {%- else %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}" />
+    {%- endif %}
+    {%- if config.CDN_STATIC %}
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+    {%- else %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    {%- endif %}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/meny.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('pygments_css') }}">
+    {# <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'> #}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}" />
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+    <div class="meny">
+        {% block many %}{% endblock %}
+        <ul>
+            <li><a href="http://github.com/istinspring">GitHub</a></li>
+            <li><a href="http://twitter.com/istinspring">Twitter</a></li>
+        </ul>
+    </div>
+
+    {% block everything %}
+    <div class="container" id="main-container">
+        <nav>
+            {% block navigation %}{% endblock %}
+        </nav>
+
+        <div class="row">
+            <article>
+                <div class="col col-lg-8">
+                    <div class="panel panel-default">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </article>
+            
+            <aside>
+                <div class="col col-lg-4">
+                    <div class="panel panel-default">
+                        <div class="page-header panel-heading">
+                            <h2>Sidebar</h2>
+                        </div>
+                        {% block sidebar %}{% endblock %}
+                    </div>                  
+                </div>
+            </aside>
+        </div>
+
+        <footer>
+            <div class="panel">
+                {% block footer %}{% endblock %}
+            </div>
+        </footer>
+    </div>
+    {% endblock %}
+
+    <script type="text/javascript">
+        $(document).pjax('a:not(.no-pjax)', '#main-container'); // Enable pjax for links
+        
+        // activate meny sidebar
+        var meny = Meny.create({
+            menuElement: document.querySelector('.meny'),
+            contentsElement: document.querySelector('.container'),
+            position: 'left',
+            height: 200, // The height of the menu (when using top/bottom position)
+            width: 200, // The width of the menu (when using left/right position)
+            mouse: true, // Use mouse movement to automatically open/close
+            touch: true // Use touch swipe events to open/close
+        });
+    </script>
+
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-10309863-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+</body>
+</html>

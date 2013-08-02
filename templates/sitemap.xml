@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    {%- for page in flat_pages %}
+    <url>
+        <loc>{{ config.WEBSITE_URL}}{{ url_for('page', page_name=page.name) }}</loc>
+        <lastmod>{{ page.date|date_to_iso }}</lastmod>
+    </url>
+    {%- endfor %}
+    {%- for article in articles %}
+    <url>
+        <loc>{{ config.WEBSITE_URL}}{{ url_for('post', lang=article.language, article_name=article.name) }}</loc>
+        <lastmod>{{ article.date|date_to_iso }}</lastmod>
+    </url>
+    {%- endfor %}
+</urlset>

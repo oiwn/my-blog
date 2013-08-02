@@ -1,0 +1,15 @@
+# files
+*.pyc
+*.swp
+*.swo
+*.orig
+*.*~
+*.log
+
+# folders
+.env/
+content/
+website/
+
+# Installer logs
+pip-log.txt

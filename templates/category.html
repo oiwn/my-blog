@@ -1,0 +1,14 @@
+{% extends "_basepage.html" %}
+
+{% block meta_for_no_index %}<meta name="robots" content="noindex">{% endblock %}
+{% block title %}Articles in category {{ category }}{% endblock %}
+
+{% block content %}
+<header>
+<div class="page-header panel-heading">
+  <h2>Articles in category <b>{{ category|capitalize }}</b></h2>
+</div>
+</header>
+
+{% include "_articles_list.html" %}
+{% endblock %}

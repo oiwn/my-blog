@@ -1,0 +1,15 @@
+{% extends "_basepage.html" %}
+
+{% block title %}Articles in {{ language }} - ninjaside.info{% endblock %}
+{% block meta_description %}blog articles in {{ language }} language{% endblock %}
+{% block meta_keywords %}ninjaside.info, blog, {{ language }}{% endblock %}
+{% block page_language %}{{ language }}{% endblock %}
+
+
+{% block content %}
+<div class="page-header panel-heading">
+    <h2>List of articles</h2>
+</div>
+
+{% include "_articles_list.html" %}
+{% endblock %}

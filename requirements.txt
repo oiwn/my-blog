@@ -1,0 +1,5 @@
+flask
+flask-flatpages
+flask-frozen
+Pygments
+fabric
