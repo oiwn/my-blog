@@ -8,7 +8,9 @@ FLATPAGES_EXTENSION = '.md'
 
 FREEZER_DESTINATION = 'website'
 
+SKIP_DIR = 'trash/'
 PAGES_DIR = 'pages/'
+WIKI_DIR = 'wiki/'
 BLOG_DIRS = {'ru': 'blog/ru', 'en': 'blog/en'}
 
 TAG_RANK = (

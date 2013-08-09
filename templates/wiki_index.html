@@ -1,0 +1,13 @@
+{% extends "_wiki.html" %}
+
+{% block content %}
+<div class="page-header panel-heading">
+    <h1>List of wiki pages</h1>
+</div>
+
+<ul>
+{%- for page in wiki_pages %}
+    <li><a href="{{ url_for('wiki_page', page_name=page.name) }}">{{ page.title }}</a>
+{%- endfor %}
+</ul>
+{% endblock %}

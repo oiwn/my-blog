@@ -25,8 +25,13 @@ def date_to_iso(s):
 
 
 class StaticBlog(object):
-    def __init__(self, pages_dir, blog_dirs, pages):
+    pages_dir = None
+    wiki_dir = None
+    blogs = None
+
+    def __init__(self, pages_dir, wiki_dir, blog_dirs, pages):
         self.pages_dir = pages_dir
+        self.wiki_dir = wiki_dir
         self.blog_dirs = blog_dirs
         self.pages = pages
 
@@ -71,6 +76,26 @@ class StaticBlog(object):
                 flat_page = page
                 break
         return flat_page
+
+
+    def get_wiki_pages(self):
+        pages = []
+        for page in self.pages:
+            if page.path.startswith(self.wiki_dir):
+                page_name, = page.path.split('/')[-1:]
+                setattr(page, 'name', page_name)
+                pages.append(page)
+        return sorted(pages, reverse=False, key=lambda x: x.meta.get('title', ''))
+
+
+    def get_wiki_page_by_name(self, page_name):
+        wiki_page = None
+        wiki_pages = self.get_wiki_pages()
+        for page in wiki_pages:
+            if page.path.endswith(page_name):
+                wiki_page = page
+                break
+        return wiki_page
 
 
     def get_blogs(self, post_limit=5):
@@ -145,7 +170,8 @@ class StaticBlog(object):
 
 
 # create static blog instance
-static_blog = StaticBlog(app.config['PAGES_DIR'], app.config['BLOG_DIRS'], pages)
+static_blog = StaticBlog(
+    app.config['PAGES_DIR'], app.config['WIKI_DIR'], app.config['BLOG_DIRS'], pages)
 
 
 @app.context_processor
@@ -209,6 +235,25 @@ def page(page_name):
 
     flat_page = static_blog.get_flat_page_by_name(page_name)
     return render_template('page.html', flat_page=flat_page)
+
+
+@app.route('/wiki/')
+def wiki_index():
+    '''
+    Render wiki pages
+    '''
+
+    wiki_pages = static_blog.get_wiki_pages()
+    return render_template('wiki_index.html', wiki_pages=wiki_pages)
+
+@app.route('/wiki/<string:page_name>/')
+def wiki_page(page_name):
+    '''
+    Render wiki page
+    '''
+
+    wiki_page = static_blog.get_wiki_page_by_name(page_name)
+    return render_template('wiki_page.html', wiki_page=wiki_page)
 
 
 @app.route('/blog/<string:lang>/')
