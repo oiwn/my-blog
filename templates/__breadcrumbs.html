@@ -1,0 +1,13 @@
+{%- if request.path != "/"%}
+<ul class="breadcrumb">
+  <li><a href="{{ url_for('index')}}">Index</a></li>
+	{%- if article %}
+	{%- if "/blog/ru/" in request.path %}
+  <li><a href="{{ url_for('blog', lang="ru") }}">Blog Ru</a></li>
+  {%- endif %}
+  {%- if "/blog/en/" in request.path %}
+  <li><a href="{{ url_for('blog', lang="en") }}">Blog En</a></li>
+	{%-endif %}
+  {%- endif %}
+</ul>
+{%- endif %}

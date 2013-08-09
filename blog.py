@@ -110,10 +110,11 @@ class StaticBlog(object):
 
         blogs = []
         for lang, path in app.config['BLOG_DIRS'].items():
+            articles = self.get_published(self.articles_for_blog(lang))
             blog_data = {
                 'language': lang,
-                'articles': self.sort_by_date(
-                    self.get_published(self.articles_for_blog(lang)))[:post_limit]
+                'count': len(articles),
+                'articles': self.sort_by_date(articles)[:post_limit]
             }
             blogs.append(blog_data)
 
@@ -293,6 +294,7 @@ def category(category):
 
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == "build":
+        app.config['CDN_STATIC'] = True
         freezer.freeze()
     else:
         app.run(port=8000)

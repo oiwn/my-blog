@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block sidebar %}
-{% if categories %}
+{%- if categories %}
 <ul class="nav nav-pills nav-stacked">
 	{% for cat in categories %}
 		{% if article %}
@@ -29,7 +29,7 @@
 			</a>
 		</li>
 		{% else %}
-		<li>
+		<li {% if cat == category %}class="active"{% endif %}>
 			<a href="{{ url_for('category', category=cat) }}">
 				{{ cat }}
 			</a>
@@ -37,19 +37,23 @@
 		{% endif %}
 	{% endfor %}
  </ul>
-{% endif %}
+{%- endif %}
 <hr>
-{% if tags %}
-<div class=tags>
-  	<ul>
+{%- if tags %}
+<div class="tags">
+  	<ul class="list-unstyled">
 	{% for tag, level in tags.items() %}
 		<li class="{{ level }}">
+			{%- if article %}
+			<a href="{{ url_for('tag', tag=tag) }}" title="{{ tag }}">{%- if tag in article.tags %}<b class="current-tag">{{ tag }}</b>{%- else %}{{ tag }}{%- endif %}</a>
+			{%- else %}
 			<a href="{{ url_for('tag', tag=tag) }}" title="{{ tag }}">{{ tag }}</a>
+			{%- endif %}
 		</li>
 	{% endfor %}
 	</ul>
 </div>
-{% endif%}
+{%- endif %}
 {% endblock %}
 
 {% block footer %}

@@ -9,7 +9,7 @@
 <ul>
     <h2>
         <a href="{{ url_for('blog', lang=blog.language) }}">
-            {{ blog.language }}
+            {{ blog.language }} ({{ blog.count }})
         </a>
     </h2>
     {%- for article in blog.articles %}
