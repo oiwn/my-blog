@@ -64,7 +64,6 @@ hr {
 
 .tags li a:hover {
     z-index: 50;
-    font-size: +12px;
     color: #F00;
 }
 
