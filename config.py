@@ -14,12 +14,14 @@ FREEZER_DESTINATION_IGNORE = ['.git*']
 SKIP_DIR = 'trash/'
 
 SITE_STRUCTURE = {
-    'pages': {
-        'flat_pages': {
-            'url': 'pages/', 'sort_by': 'position', 'template': 'nav_page.html'
+    'flat_pages': {
+        'page': {
+            'url': 'pages/', 'sort_by': 'position', 'prefix': 'pages',
+            'template': 'nav_page.html'
         },
-        'wiki_pages': {
-            'url': 'wiki/', 'sort_by': 'title', 'template': 'wiki_page.html'
+        'wiki': {
+            'url': 'wiki/', 'sort_by': 'title', 'prefix': 'wiki',
+            'template': 'wiki_page.html'
         },
     },
     'blogs': {

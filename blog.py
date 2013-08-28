@@ -32,7 +32,7 @@ def date_to_iso(s):
 
 @app.context_processor
 def inject_nav_pages():
-    return dict(flat_pages=static_blog.get_pages_for('flat_pages'))
+    return dict(flat_pages=static_blog.get_pages_for('page'))
 
 
 @app.context_processor
@@ -103,7 +103,7 @@ def wiki_index():
     Render wiki pages
     '''
 
-    wiki_pages = static_blog.get_pages_for('wiki_pages')
+    wiki_pages = static_blog.get_pages_for('wiki')
     return render_template('wiki_index.html', wiki_pages=wiki_pages)
 
 

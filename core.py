@@ -64,7 +64,7 @@ class StaticBlog(object):
         Return pages list for something (wiki, flatpages etc.)
         '''
 
-        sr_pages = self.site_structure['pages']
+        sr_pages = self.site_structure['flat_pages']
 
         if name not in sr_pages.keys():
             raise Exception(

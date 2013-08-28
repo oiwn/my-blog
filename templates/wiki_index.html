@@ -9,7 +9,7 @@
     <ul>
     {%- for page in wiki_pages %}
         <li>
-            <a href="{{ url_for('page', name='wiki_pages', page_name=page.name) }}">
+            <a href="{{ url_for('page', name='wiki', page_name=page.name) }}">
                 {{ page.title }}
             </a> <small>{{ page.summary }}</small>
         </li>
