@@ -9,7 +9,7 @@ FLATPAGES_ROOT = 'content'
 FLATPAGES_EXTENSION = '.md'
 
 FREEZER_DESTINATION = 'website'
-FREEZER_DESTINATION_IGNORE = ['.git*']
+FREEZER_DESTINATION_IGNORE = ['.git*', '.gitignore']
 
 SKIP_DIR = 'trash/'
 
