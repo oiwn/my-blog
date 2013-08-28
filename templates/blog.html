@@ -7,9 +7,11 @@
 
 
 {% block content %}
-<div class="page-header panel-heading">
+<div class="panel-heading">
     <h2>List of articles</h2>
 </div>
 
-{% include "_articles_list.html" %}
+<div class="panel-body">
+    {% include "_articles_list.html" %}
+</div>
 {% endblock %}

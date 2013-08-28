@@ -1,5 +1,7 @@
 DEBUG = True
 CDN_STATIC = True
+BOOTSTRAP_CDN = False
+PAGES_ADDITIONAL_JS = True
 WEBSITE_URL = 'http://ninjaside.info'
 
 FLATPAGES_AUTO_RELOAD = DEBUG
@@ -10,9 +12,35 @@ FREEZER_DESTINATION = 'website'
 FREEZER_DESTINATION_IGNORE = ['.git*']
 
 SKIP_DIR = 'trash/'
+
+SITE_STRUCTURE = {
+    'pages': {
+        'flat_pages': {
+            'url': 'pages/', 'sort_by': 'position', 'template': 'nav_page.html'
+        },
+        'wiki_pages': {
+            'url': 'wiki/', 'sort_by': 'title', 'template': 'wiki_page.html'
+        },
+    },
+    'blogs': {
+        'programming_blog': {
+            'ru': 'blog/ru',
+            'en': 'blog/en',
+        },
+        'music_blog': {
+            'ru': 'music/ru',
+        }
+    }
+}
+
+BLOG_DIRS = [
+    ''
+]
 PAGES_DIR = 'pages/'
 WIKI_DIR = 'wiki/'
 BLOG_DIRS = {'ru': 'blog/ru', 'en': 'blog/en'}
+MUSIC_DIRS = {'ru': 'music/ru'}
+
 
 TAG_RANK = (
 	"tagRank10", "tagRank9", "tagRank8", "tagRank7", "tagRank6", "tagRank5",

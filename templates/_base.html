@@ -15,7 +15,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>
     {%- endif %}
     {%- if config.CDN_STATIC %}
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/js/bootstrap.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     {%- else %}
     <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
     {%- endif %}
@@ -32,16 +32,15 @@
     {%- else %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}" />
     {%- endif %}
-    {%- if config.CDN_STATIC %}
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css">
+    {%- if config.BOOTSTRAP_CDN %}
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
     {%- else %}
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-united.min.css') }}" />
     {%- endif %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/meny.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('pygments_css') }}">
-    {# <link href='http://fonts.googleapis.com/css?family=Inconsolata:400,700' rel='stylesheet' type='text/css'> #}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/layout.css') }}" />
-    {% block extra_css %}{% endblock %}
+    {%- block extra_css %}{% endblock %}
 </head>
 
 <body>
@@ -55,15 +54,17 @@
 
     {% block everything %}
     <div class="container" id="main-container">
-        <nav>
+        <nav class="navbar navbar-default" role="navigation">
             {% block navigation %}{% endblock %}
         </nav>
 
         <div class="row">
+            
             <article>
                 <div class="col col-lg-8">
                     <div class="panel panel-default">
                         {% block content %}{% endblock %}
+                        <div class="panel-footer"></div>
                     </div>
                 </div>
             </article>
@@ -71,17 +72,19 @@
             <aside>
                 <div class="col col-lg-4">
                     <div class="panel panel-default">
-                        <div class="page-header panel-heading">
+                        <div class="panel-heading">
                             <h2>Sidebar</h2>
                         </div>
-                        {% block sidebar %}{% endblock %}
+                        <div class="panel-body">
+                            {% block sidebar %}{% endblock %}
+                        </div>
                     </div>                  
                 </div>
             </aside>
         </div>
 
         <footer>
-            <div class="panel">
+            <div class="panel panel-default">
                 {% block footer %}{% endblock %}
             </div>
         </footer>
@@ -103,6 +106,7 @@
         });
     </script>
 
+    {%- if config.PAGES_ADDITIONAL_JS %}
     <script type="text/javascript">
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-10309863-1']);
@@ -114,5 +118,6 @@
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
     </script>
+    {%- endif %}
 </body>
 </html>

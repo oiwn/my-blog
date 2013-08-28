@@ -1,12 +1,14 @@
 {% extends "_base.html" %}
 
 {% block navigation %}
-<div class="navbar navbar-static-top">
-	<a class="navbar-brand" href="{{ url_for('index') }}"><b>Ninjaside</b></a>
-  	<ul class="nav navbar-nav">
+<!--div class="navbar navbar-static-top"-->
+    <div class="navbar-header">
+	   <a class="navbar-brand" href="{{ url_for('index') }}"><b>Ninjaside</b></a>
+  	</div>
+    <ul class="nav navbar-nav">
     {% for fp in flat_pages %}
     	<li>
-    		<a href="{{ url_for('page', page_name=fp.name) }}">
+    		<a href="{{ url_for('page', name='flat_pages', page_name=fp.name) }}">
     			{{ fp.title }}
     		</a>
     	</li>
@@ -15,7 +17,7 @@
 	<ul class="nav navbar-nav pull-right">
 		<li><a href="{{ url_for('wiki_index') }}"><b>Wiki</b></a></li>
 	</ul>
-</div>
+<!--/div-->
 {% endblock %}
 
 {% block sidebar %}
@@ -57,7 +59,7 @@
 {% endblock %}
 
 {% block footer %}
-<div class="panel-footer">
+<div class="panel-body">
 	<p>&copy; Copyright 2013 Alex Istinspring</p>
 	<p><small><a class="no-pjax" href="/sitemap.xml">sitemap.xml</a></small></p>
 </div>

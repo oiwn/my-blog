@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     {%- for page in flat_pages %}
     <url>
-        <loc>{{ config.WEBSITE_URL}}{{ url_for('page', page_name=page.name) }}</loc>
+        <loc>{{ config.WEBSITE_URL}}{{ url_for('page', name='flat_pages', page_name=page.name) }}</loc>
         <lastmod>{{ page.date|date_to_iso }}</lastmod>
     </url>
     {%- endfor %}

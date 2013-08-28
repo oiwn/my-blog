@@ -32,12 +32,13 @@ def push_blog():
 	"""
 
 	warn(green("Update blog on github pages."))
+	_setup_virtualenv()
 
 	with cd(PROJECT_PATH):
 		with prefix(env.activate):
-			local('python blog.py build')
+			local('python blog.py build', shell='/bin/bash')
 
-	with cd(os.path.join(PROJECT_PATH, FREEZER_DESTINATION)):
+		local('cd {}'.format(FREEZER_DESTINATION), shell='/bin/bash')
 		local('git status')
 		ask_msg = red("Force push new content to blog?")
 		if console.confirm(ask_msg, default=False) is True:
