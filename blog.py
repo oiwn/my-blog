@@ -71,7 +71,7 @@ def sitemap():
     Generate sitemap.xml. Makes a list of urls and date modified.
     """
 
-    flat_pages = static_blog.get_pages_for('flat_pages')
+    flat_pages = static_blog.get_pages_for('page')
     articles = static_blog.get_articles()
 
     sitemap_xml = render_template('sitemap.xml', flat_pages=flat_pages, articles=articles)
