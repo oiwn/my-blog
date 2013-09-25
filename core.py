@@ -34,9 +34,6 @@ class StaticBlog(object):
         self.pages = pages
         self.site_structure = app.config['SITE_STRUCTURE']
 
-        self.blog_dirs = app.config['BLOG_DIRS']
-
-
         self.articles_for_blog = lambda blog, lang: [
             p for p in self.pages if p.path.startswith(self.site_structure['blogs'][blog][lang])
         ]  # return only blog articles
@@ -186,6 +183,11 @@ class StaticBlog(object):
                 article = page
                 break
         return article
+
+
+    def count_articles_in_category(self, category):
+        articles = self.sort_by_date(self.get_published(self.get_all_articles()))
+        return len([p for p in articles if p.meta.get('category', '') == category])
 
 
     def get_categories(self):

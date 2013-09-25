@@ -5,17 +5,22 @@
 {% block meta_keywords %}{{ article.tags|join(", ") }}{% endblock %}
 {% block page_language %}{{ article.language }}{% endblock %}
 
-{% block content %}
+{% block all_content %}
+<div itemscope itemtype="http://schema.org/BlogPosting">
+    <div class="panel panel-default">
+
 <div class="panel-heading">
-    <h1 class="panel-title">{{ article.title }}</h1>
+    <h1 class="panel-title"><span itemprop="name">{{ article.title }}</span></h1>
 </div>
 
 <div class="panel-body">
-    <p class="text-right"><small>{{ article.date }}</small></p>
+    <p class="text-right"><small><span itemprop="datePublished">{{ article.date }}</span></small></p>
 
+    <div itemprop="articleBody">
     {{ article.html|safe }}
+    </div>
 
-    <div class="comments-block">
+    <div class="comments-block" itemprop="comment">
         {%- if config.PAGES_ADDITIONAL_JS %}
         <div id="disqus_thread"></div>
         <script type="text/javascript">
@@ -32,6 +37,9 @@
         <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
         <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
         {%- endif %}
+    </div>
+</div>
+
     </div>
 </div>
 {% endblock %}

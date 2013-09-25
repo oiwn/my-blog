@@ -5,62 +5,91 @@
     <div class="navbar-header">
 	   <a class="navbar-brand" href="{{ url_for('index') }}"><b>Ninjaside</b></a>
   	</div>
+
     <ul class="nav navbar-nav">
     {% for fp in flat_pages %}
-    	<li>
-    		<a href="{{ url_for('page', name='page', page_name=fp.name) }}">
-    			{{ fp.title }}
-    		</a>
-    	</li>
+        <li>
+            <a href="{{ url_for('page', name='page', page_name=fp.name) }}">
+                {{ fp.title }}
+            </a>
+        </li>
     {% endfor %}
-	</ul>
-	<ul class="nav navbar-nav pull-right">
+    </ul>
+
+	<ul class="nav navbar-nav navbar-right">
 		<li><a href="{{ url_for('wiki_index') }}"><b>Wiki</b></a></li>
 	</ul>
 <!--/div-->
 {% endblock %}
 
 {% block sidebar %}
-{%- if categories %}
+<div class="panel-body">
+    <div class="btn-group btn-group-justified">
+        {% if request.path == '/' %}
+        <a class="btn btn-info" data-toggle="collapse" data-target="#blogCollapse" data-parent="#accordion">Blog (programming)</a>
+        <a class="btn btn-success" data-toggle="collapse" data-target="#musicCollapse" data-parent="#accordion">Music</a>
+        {% else %}
+        <a href="{{ url_for('blog_lang', name='blog') }}" class="btn btn-info">Blog (programming)</a>
+        <a href="{{ url_for('blog_lang', name='music') }}" class="btn btn-success">Music</a>
+        {% endif %}
+    </div>
+</div>
+
+{%- if categories %}{%- if config.SIDEBAR_VARIATION == 'nav' %}
+<div class="panel-body">
 <ul class="nav nav-pills nav-stacked">
-	{% for cat in categories %}
-		{% if article %}
-		<li {% if cat == article.meta.category %}class="active"{% endif %}>
-			<a href="{{ url_for('category', category=cat) }}">
-				{{ cat }}
-			</a>
-		</li>
-		{% else %}
-		<li {% if cat == category %}class="active"{% endif %}>
-			<a href="{{ url_for('category', category=cat) }}">
-				{{ cat }}
-			</a>
-		</li>
-		{% endif %}
-	{% endfor %}
- </ul>
-{%- endif %}
-<hr>
+{%- for cat in categories %}
+    {%- if article %}
+    <li {% if cat == article.meta.category -%}class="active"{% endif -%}>
+        <a href="{{ url_for('category', category=cat) }}">
+            {{ cat }} <span class="badge pull-right">{{ cat|count_articles_in_category }}</span>
+        </a>
+    </li>
+    {%- else %}
+    <li {% if cat == category %}class="active"{% endif %}>
+        <a href="{{ url_for('category', category=cat) }}">
+            {{ cat }} <span class="badge pull-right">{{ cat|count_articles_in_category }}</span>
+        </a>
+    </li>
+    {%- endif %}
+{%- endfor %}
+</ul>
+</div>
+{%- else %}
+<div class="list-group">
+{%- for cat in categories %}
+    {%- if article %}
+    <a href="{{ url_for('category', category=cat) }}" class="list-group-item {% if cat == article.meta.category -%}active{% endif -%}">{{ cat }} <span class="badge">{{ cat|count_articles_in_category }}</span></a>
+    {%- else %}
+    <a href="{{ url_for('category', category=cat) }}" class="list-group-item {% if cat == category -%}active{% endif -%}">{{ cat }} <span class="badge">{{ cat|count_articles_in_category }}</span></a>
+    {%- endif %}
+{%- endfor %}
+</div>
+{%- endif %}{%- endif %}
+
 {%- if tags %}
-<div class="tags">
-  	<ul class="list-unstyled">
-	{% for tag, level in tags.items() %}
-		<li class="{{ level }}">
-			{%- if article %}
-			<a href="{{ url_for('tag', tag=tag) }}" title="{{ tag }}">{%- if tag in article.tags %}<b class="current-tag">{{ tag }}</b>{%- else %}{{ tag }}{%- endif %}</a>
-			{%- else %}
-			<a href="{{ url_for('tag', tag=tag) }}" title="{{ tag }}">{{ tag }}</a>
-			{%- endif %}
-		</li>
-	{% endfor %}
-	</ul>
+<div class="panel-body">
+    <div class="tags">
+      	<ul class="list-unstyled">
+    	{%- for tag, level in tags.items() %}
+    		<li class="{{ level }}">
+    			{%- if article %}
+    			<a href="{{ url_for('tag', tag=tag) }}" title="{{ tag }}">{%- if tag in article.tags %}<b class="current-tag">{{ tag }}</b>{%- else %}{{ tag }}{%- endif %}</a>
+    			{%- else %}
+    			<a href="{{ url_for('tag', tag=tag) }}" title="{{ tag }}">{{ tag }}</a>
+    			{%- endif %}
+    		</li>
+    	{%- endfor %}
+    	</ul>
+    </div>
 </div>
 {%- endif %}
 {% endblock %}
 
 {% block footer %}
 <div class="panel-body">
-	<p>&copy; Copyright 2013 Alex Istinspring</p>
-	<p><small><a class="no-pjax" href="/sitemap.xml">sitemap.xml</a></small></p>
+</div>
+<div class="panel-footer">
+    <p>&copy; Copyright 2013 Alex Istinspring <a class="no-pjax pull-right" href="/sitemap.xml">sitemap.xml</a></p>
 </div>
 {% endblock %}

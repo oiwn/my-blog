@@ -1,6 +1,48 @@
 {% extends "_basepage.html" %}
 
-{% block content %}
+{% block all_content %}
+<div class="panel-group" id="accordion">
+    {%- for blog_name, blog_data in blogs.items() %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#{{ blog_name }}Collapse">
+                <h1 class="panel-title">
+                    <a href="{{ url_for('blog_lang', name=blog_name) }}">{{ blog_name|capitalize }}</a>
+                </h1>
+            </a>
+        </div>
+        <div id="{{ blog_name}}Collapse" class="panel-collapse collapse {% if loop.index == 1 -%}in{% endif -%}">
+            <div class="panel-body">
+
+    <h2><a href="{{ url_for('blog_lang', name=blog_name) }}">{{ blog_name|capitalize }}</a></h2>
+    {%- for lang, blog in blog_data.items() %}
+    <ul>
+        <h2>
+            <a href="{{ url_for('blog', name=blog_name, lang=blog.language) }}">
+                {{ blog.language }}
+            </a> <small>({{ blog.count }})</small>
+        </h2>
+        {%- for article in blog.articles %}
+        <li {% if loop.first %}class="first-article"{% endif %}>
+            <small>{{ article.date }}</small>
+            <a href="{{ url_for('post', name=blog_name, lang=blog.language, article_name=article.name) }}">
+                {{ article.title }}
+            </a>
+            <br>
+            <small>{{ article.summary }}</small>
+        </li>
+        {%- else %}
+        <li>No articles.</li>
+        {% endfor -%}
+    </ul>
+    {%- endfor %}
+           
+            </div>
+        </div>
+    </div>
+    {%- endfor %}
+</div>
+{#
 <div class="panel-heading">
     <h1 class="panel-title">List of blogs and articles</h1>
 </div>
@@ -31,4 +73,5 @@
     {%- endfor %}
     {%- endfor %}
 </div>
+#}
 {% endblock %}

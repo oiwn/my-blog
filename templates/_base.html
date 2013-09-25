@@ -10,14 +10,14 @@
     {% block meta_for_no_index %}{% endblock %}
 
     {%- if config.CDN_STATIC %}
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     {%- else %}
-    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.10.2.min.js') }}"></script>
     {%- endif %}
     {%- if config.CDN_STATIC %}
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
     {%- else %}
-    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     {%- endif %}
     {%- if config.CDN_STATIC %}
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.pjax/1.7.0/jquery.pjax.min.js"></script>
@@ -65,14 +65,16 @@
             {% block navigation %}{% endblock %}
         </nav>
 
-        <div class="row">
+        <div class="row" id="content-container">
             
             <article>
                 <div class="col col-lg-8">
+                    {% block all_content %}
                     <div class="panel panel-default">
                         {% block content %}{% endblock %}
                         <div class="panel-footer"></div>
                     </div>
+                    {% endblock %}
                 </div>
             </article>
             
@@ -82,13 +84,14 @@
                         <div class="panel-heading">
                             <h2 class="panel-title">Sidebar</h2>
                         </div>
-                        <div class="panel-body">
-                            {% block sidebar %}{% endblock %}
-                        </div>
+                        {% block sidebar %}{% endblock %}
+                        <div class="panel-footer"></div>
                     </div>                  
                 </div>
             </aside>
         </div>
+
+        <br>
 
         <footer>
             <div class="panel panel-default">
@@ -99,7 +102,7 @@
     {% endblock %}
 
     <script type="text/javascript">
-        $(document).pjax('a:not(.no-pjax)', '#main-container'); // Enable pjax for links
+        $(document).pjax('a:not(.no-pjax)', '#content-container'); // Enable pjax for links
         
         // activate meny sidebar
         var meny = Meny.create({

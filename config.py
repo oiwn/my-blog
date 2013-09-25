@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 
 DEBUG = True
+
+# site settings
 CDN_STATIC = False
 BOOTSTRAP_CDN = False
 PAGES_ADDITIONAL_JS = False
+SIDEBAR_VARIATION = 'nav'
 WEBSITE_URL = 'http://ninjaside.info'
 
+# flatpages and freezer settings
 FLATPAGES_AUTO_RELOAD = DEBUG
 FLATPAGES_ROOT = 'content'
 FLATPAGES_EXTENSION = '.md'
@@ -37,14 +41,6 @@ SITE_STRUCTURE = {
         }
     }
 }
-
-BLOG_DIRS = [
-    ''
-]
-PAGES_DIR = 'pages/'
-WIKI_DIR = 'wiki/'
-BLOG_DIRS = {'ru': 'blog/ru', 'en': 'blog/en'}
-MUSIC_DIRS = {'ru': 'music/ru'}
 
 
 TAG_RANK = (

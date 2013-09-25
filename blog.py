@@ -31,7 +31,6 @@ class NoSomethingConverter(BaseConverter):
         super(NoSomethingConverter, self).__init__(url_map)
 
     def to_python(self, value):
-        print value, self.restriction()
         if value in self.restriction():
             raise ValidationError()
         return value
@@ -41,16 +40,18 @@ class NoStaticConverter(NoSomethingConverter):
     restriction = lambda x: ['static']
 app.url_map.converters['no_static'] = NoStaticConverter
 
-
 class NoBlogsConverter(NoSomethingConverter):
     restriction = static_blog.get_blogs_names
 app.url_map.converters['no_blogs'] = NoBlogsConverter
-
 
 class NoPagesConverter(NoSomethingConverter):
     restriction = static_blog.get_pages_names
 app.url_map.converters['no_pages'] = NoPagesConverter
 
+
+'''
+Template filters and context processors
+'''
 
 @app.template_filter('date_to_iso')
 def date_to_iso(s):
@@ -60,6 +61,11 @@ def date_to_iso(s):
 
     date = datetime.strptime(s, '%Y-%m-%d %H:%M')
     return date.strftime('%Y-%m-%d')
+
+
+@app.template_filter('count_articles_in_category')
+def count_articles_in_category(s):
+    return static_blog.count_articles_in_category(s)
 
 
 @app.context_processor
@@ -146,7 +152,6 @@ def blog_lang(name):
     '''
 
     blog = static_blog.get_blog(name)
-    print blog
     return render_template('blog_all.html', blog=blog)
 
 
