@@ -6,18 +6,50 @@ from datetime import datetime
 from flask import Flask, render_template, send_from_directory, make_response
 from flask.ext.flatpages import FlatPages, pygments_style_defs
 from flask_frozen import Freezer
+from werkzeug.routing import BaseConverter, ValidationError
 
 from core import StaticBlog
 
 
 app = Flask(__name__)
 app.config.from_object('config')
+# flat-pages and freezer
 pages = FlatPages(app)
 freezer = Freezer(app)
-
-
 # create static blog instance
 static_blog = StaticBlog(app, pages)
+
+
+'''
+Url converters, to avoid wrong url pattern matching
+'''
+
+class NoSomethingConverter(BaseConverter):
+    restriction = []
+
+    def __ini__(self, url_map):
+        super(NoSomethingConverter, self).__init__(url_map)
+
+    def to_python(self, value):
+        print value, self.restriction()
+        if value in self.restriction():
+            raise ValidationError()
+        return value
+
+
+class NoStaticConverter(NoSomethingConverter):
+    restriction = lambda x: ['static']
+app.url_map.converters['no_static'] = NoStaticConverter
+
+
+class NoBlogsConverter(NoSomethingConverter):
+    restriction = static_blog.get_blogs_names
+app.url_map.converters['no_blogs'] = NoBlogsConverter
+
+
+class NoPagesConverter(NoSomethingConverter):
+    restriction = static_blog.get_pages_names
+app.url_map.converters['no_pages'] = NoPagesConverter
 
 
 @app.template_filter('date_to_iso')
@@ -71,8 +103,8 @@ def sitemap():
     Generate sitemap.xml. Makes a list of urls and date modified.
     """
 
-    flat_pages = static_blog.get_pages_for('page')
-    articles = static_blog.get_articles()
+    flat_pages = static_blog.get_all_pages()
+    articles = static_blog.get_all_articles()
 
     sitemap_xml = render_template('sitemap.xml', flat_pages=flat_pages, articles=articles)
     response = make_response(sitemap_xml)
@@ -83,11 +115,11 @@ def sitemap():
 
 @app.route('/')
 def index():
-    blogs = static_blog.get_blogs()
+    blogs = static_blog.get_all_blogs()
     return render_template('index.html', blogs=blogs)
 
 
-@app.route('/<string:name>/<string:page_name>/')
+@app.route('/<no_blogs:name>/<string:page_name>/')
 def page(name, page_name):
     '''
     Render flatpages
@@ -107,39 +139,29 @@ def wiki_index():
     return render_template('wiki_index.html', wiki_pages=wiki_pages)
 
 
-"""
-@app.route('/page/<string:page_name>/')
-def page(page_name):
+@app.route('/<no_pages:name>/')
+def blog_lang(name):
     '''
-    Render pages like 'about', 'experience', 'contacts'
-    '''
-
-    flat_page = static_blog.get_flat_page_by_name(page_name)
-    return render_template('page.html', flat_page=flat_page)
-
-
-@app.route('/wiki/<string:page_name>/')
-def wiki_page(page_name):
-    '''
-    Render wiki page
+    Render blog page with languages
     '''
 
-    wiki_page = static_blog.get_wiki_page_by_name(page_name)
-    return render_template('wiki_page.html', wiki_page=wiki_page)
-"""
+    blog = static_blog.get_blog(name)
+    print blog
+    return render_template('blog_all.html', blog=blog)
 
-@app.route('/blog/<string:lang>/')
-def blog(lang):
+
+@app.route('/<no_pages:name>/<string:lang>/')
+def blog(name, lang):
     '''
     Render blog index page
     '''
 
-    articles = static_blog.get_articles(language=lang)
+    articles = static_blog.get_articles(name, language=lang)
     return render_template('blog.html', articles=articles, language=lang)
 
 
-@app.route('/blog/<string:lang>/<string:article_name>/')
-def post(lang, article_name):
+@app.route('/<no_static:name>/<string:lang>/<string:article_name>/')
+def post(name, lang, article_name):
     '''
     Render blog post
     '''
@@ -156,7 +178,7 @@ def tag(tag):
 
 @app.route('/category/<string:category>/')
 def category(category):
-    articles = static_blog.get_articles()
+    articles = static_blog.get_all_articles()
     articles_in_category = [
         p for p in articles if category == p.meta.get('category', '')]
     return render_template('category.html', articles=articles_in_category,
@@ -166,6 +188,7 @@ def category(category):
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == "build":
         app.config['CDN_STATIC'] = True
+        app.config['PAGES_ADDITIONAL_JS'] = True
         freezer.freeze()
     else:
         app.run(port=8000)

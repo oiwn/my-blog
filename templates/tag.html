@@ -1,11 +1,11 @@
 {% extends "_basepage.html" %}
 
 {% block meta_for_no_index %}<meta name="robots" content="noindex">{% endblock %}
-{% block title %}Articles in tag {{ tag }}{% endblock %}
+{% block title %}Articles in tag: {{ tag }}{% endblock %}
 
 {% block content %}
 <div class="panel-heading">
-    <header><h2>Articles with tag <b>{{ tag }}</b></h2></header>
+    <h1 class="panel-title">Articles with tag: <b>{{ tag }}</b></h1>
 </div>
 
 <div class="panel-body">

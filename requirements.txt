@@ -1,5 +1,5 @@
 flask
 flask-flatpages
-flask-frozen
+frozen-flask
 Pygments
 fabric

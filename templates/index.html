@@ -2,21 +2,23 @@
 
 {% block content %}
 <div class="panel-heading">
-    <h1>List of articles</h1>
+    <h1 class="panel-title">List of blogs and articles</h1>
 </div>
 
 <div class="panel-body">
-    {%- for blog in blogs %}
+    {%- for blog_name, blog_data in blogs.items() %}
+    <h2><a href="{{ url_for('blog_lang', name=blog_name) }}">{{ blog_name|capitalize }}</a></h2>
+    {%- for lang, blog in blog_data.items() %}
     <ul>
         <h2>
-            <a href="{{ url_for('blog', lang=blog.language) }}">
-                {{ blog.language }} ({{ blog.count }})
-            </a>
+            <a href="{{ url_for('blog', name=blog_name, lang=blog.language) }}">
+                {{ blog.language }}
+            </a> <small>({{ blog.count }})</small>
         </h2>
         {%- for article in blog.articles %}
         <li {% if loop.first %}class="first-article"{% endif %}>
             <small>{{ article.date }}</small>
-            <a href="{{ url_for('post', lang=blog.language, article_name=article.name) }}">
+            <a href="{{ url_for('post', name=blog_name, lang=blog.language, article_name=article.name) }}">
                 {{ article.title }}
             </a>
             <br>
@@ -26,6 +28,7 @@
         <li>No articles.</li>
         {% endfor -%}
     </ul>
+    {%- endfor %}
     {%- endfor %}
 </div>
 {% endblock %}

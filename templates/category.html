@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="panel-heading">
-    <header><h2>Articles in category <b>{{ category|capitalize }}</b></h2></header>
+    <h1 class="panel-title">Articles in category: <b>{{ category|capitalize|replace('-', ' ') }}</b></h1>
 </div>
 
 <div class="panel-body">

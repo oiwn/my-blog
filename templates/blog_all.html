@@ -1,0 +1,32 @@
+{% extends "_basepage.html" %}
+
+{% block content %}
+<div class="panel-heading">
+    <h1 class="panel-title">List of {{ blog.blog|capitalize }} articles</h1>
+</div>
+
+<div class="panel-body">
+    <h2>{{ blog.name|capitalize }}</h2>
+    {%- for lang, blog_data in blog.subs.items() %}
+    <ul>
+        <h2>
+            <a href="{{ url_for('blog', name=blog.name, lang=lang) }}">
+                {{ lang }}
+            </a> <small>({{ blog_data.count }})</small>
+        </h2>
+        {%- for article in blog_data.articles %}
+        <li {% if loop.first -%}class="first-article"{%- endif %}>
+            <small>{{ article.date }}</small>
+            <a href="{{ url_for('post', name=blog.name, lang=blog_data.language, article_name=article.name) }}">
+                {{ article.title }}
+            </a>
+            <br>
+            <small>{{ article.summary }}</small>
+        </li>
+        {%- else %}
+        <li>No articles.</li>
+        {% endfor -%}
+    </ul>
+    {%- endfor %}
+</div>
+{% endblock %}

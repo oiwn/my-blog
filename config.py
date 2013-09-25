@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 DEBUG = True
-CDN_STATIC = True
+CDN_STATIC = False
 BOOTSTRAP_CDN = False
-PAGES_ADDITIONAL_JS = True
+PAGES_ADDITIONAL_JS = False
 WEBSITE_URL = 'http://ninjaside.info'
 
 FLATPAGES_AUTO_RELOAD = DEBUG
@@ -25,12 +27,13 @@ SITE_STRUCTURE = {
         },
     },
     'blogs': {
-        'programming_blog': {
+        'blog': {
             'ru': 'blog/ru',
             'en': 'blog/en',
         },
-        'music_blog': {
+        'music': {
             'ru': 'music/ru',
+            'en': 'music/en',
         }
     }
 }
