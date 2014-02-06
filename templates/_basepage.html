@@ -1,26 +1,26 @@
 {% extends "_base.html" %}
 
 {% block navigation %}
-<!--div class="navbar navbar-static-top"-->
     <div class="navbar-header">
 	   <a class="navbar-brand" href="{{ url_for('index') }}"><b>Ninjaside</b></a>
   	</div>
 
-    <ul class="nav navbar-nav">
-    {% for fp in flat_pages %}
-        <li>
-            <a href="{{ url_for('page', name='page', page_name=fp.name) }}">
-                {{ fp.title }}
-            </a>
-        </li>
-    {% endfor %}
-    </ul>
+    <div class="navbar-collapse collapse" id="navbar-main">
+        <ul class="nav navbar-nav">
+        {% for fp in flat_pages %}
+            <li>
+                <a href="{{ url_for('page', name='page', page_name=fp.name) }}">
+                    {{ fp.title }}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
 
-	<ul class="nav navbar-nav navbar-right">
-		<li><a href="{{ url_for('wiki_index') }}"><b>Wiki</b></a></li>
-        <li><a href="{{ url_for('recent_feed') }}" class="no-pjax"><b>RSS</b></a></li>
-	</ul>
-<!--/div-->
+    	<ul class="nav navbar-nav navbar-right">
+    		<li><a href="{{ url_for('wiki_index') }}"><b>Wiki</b></a></li>
+            <li><a href="{{ url_for('recent_feed') }}" class="no-pjax"><b>RSS</b></a></li>
+    	</ul>
+    </div>
 {% endblock %}
 
 {% block sidebar %}
