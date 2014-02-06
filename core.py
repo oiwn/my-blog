@@ -16,6 +16,7 @@ class StaticBlog(object):
     Functions to sort, get publishd and get page/blog articles
     '''
 
+    # hey! this one. why you compare dates as strings?
     sort_by_date = lambda self, articles: sorted(
         articles, reverse=True, key=lambda p: p.meta.get(
             'date', datetime.now().strftime(self.post_date_format))
@@ -193,7 +194,7 @@ class StaticBlog(object):
     def get_categories(self):
         categories = sorted(
             self.uniq_list([
-                p.meta['category'] for p in self.get_all_articles() 
+                p.meta['category'] for p in self.get_all_articles()
                 if p.meta.get('category', None)
             ]),
             key=lambda x: x[0])

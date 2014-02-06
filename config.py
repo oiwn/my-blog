@@ -42,6 +42,9 @@ SITE_STRUCTURE = {
     }
 }
 
+# some other
+AUTHOR = 'istinspring'
+
 
 TAG_RANK = (
 	"tagRank10", "tagRank9", "tagRank8", "tagRank7", "tagRank6", "tagRank5",
