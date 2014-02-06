@@ -11,6 +11,7 @@ from werkzeug.contrib.atom import AtomFeed
 from werkzeug.routing import BaseConverter, ValidationError
 
 from core import StaticBlog
+from config import WEBSITE_URL
 
 
 app = Flask(__name__)
@@ -27,7 +28,7 @@ Some additional
 '''
 
 def make_external(url):
-    return urljoin(request.url_root, url)
+    return urljoin(WEBSITE_URL, url)
 
 
 '''
@@ -135,7 +136,7 @@ def recent_feed():
     articles = static_blog.get_articles('blog', language="ru")
     for article in articles:
         feed.add(
-            article.meta['title'], unicode(article.meta['summary']),
+            article.meta['title'], article.meta['summary'],
             content_type='html',
             url=make_external(url_for('post', name=article.blog, lang=article.language, article_name=article.name)),
             updated=datetime.strptime(article.meta['date'], static_blog.post_date_format),
