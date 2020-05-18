@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
-from urlparse import urljoin
+from urllib.parse import urljoin
 from datetime import datetime
 
-from flask import Flask, render_template, send_from_directory, make_response, request, url_for
-from flask.ext.flatpages import FlatPages, pygments_style_defs
+from flask import (Flask, render_template, send_from_directory,
+                   make_response, request, url_for)
+from flask_flatpages import FlatPages, pygments_style_defs
 from flask_frozen import Freezer
-from werkzeug.contrib.atom import AtomFeed
+#  from werkzeug.contrib.atom import AtomFeed
 from werkzeug.routing import BaseConverter, ValidationError
 
 from core import StaticBlog
@@ -130,6 +131,7 @@ def sitemap():
     return response
 
 
+"""TODO: AtomFeed is deprecated
 @app.route('/feed.atom')
 def recent_feed():
     feed = AtomFeed('Ninjaside.info Atom Feed', feed_url=request.url, url=request.url_root)
@@ -143,6 +145,7 @@ def recent_feed():
             published=datetime.strptime(article.meta['date'], static_blog.post_date_format)
         )
     return feed.get_response()
+"""
 
 
 @app.route('/')

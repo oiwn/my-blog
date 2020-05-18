@@ -1,0 +1,7 @@
+# dev
+pynvim
+mypy
+ipython
+ipdb
+pylint
+flake8

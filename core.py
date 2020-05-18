@@ -3,10 +3,8 @@ from datetime import datetime
 from collections import Counter
 
 
-class StaticBlog(object):
-    '''
-    Provides stack of methods to render site content
-    '''
+class StaticBlog:
+    """Render site content"""
 
     blogs = None
 
@@ -15,6 +13,10 @@ class StaticBlog(object):
     '''
     Functions to sort, get publishd and get page/blog articles
     '''
+
+
+    def _sort_by_date(self, articles):
+        pass
 
     # hey! this one. why you compare dates as strings?
     sort_by_date = lambda self, articles: sorted(
