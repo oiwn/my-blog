@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+import logging
 
 DEBUG = True
 
@@ -43,19 +45,16 @@ SITE_STRUCTURE = {
 }
 
 # some other
-AUTHOR = 'istinspring'
+AUTHOR = 'Alex I.'
 
 
 TAG_RANK = (
-	"tagRank10", "tagRank9", "tagRank8", "tagRank7", "tagRank6", "tagRank5",
-	"tagRank4", "tagRank3", "tagRank2", "tagRank1"
+    "tagRank10", "tagRank9", "tagRank8", "tagRank7", "tagRank6", "tagRank5",
+    "tagRank4", "tagRank3", "tagRank2", "tagRank1"
 )
 
 
-import os
-import logging
-
-PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
+ROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
 
 LOG_LEVEL = logging.DEBUG
 logging.basicConfig(level=LOG_LEVEL)

@@ -38,7 +38,8 @@ class StaticBlog:
         self.site_structure = app.config['SITE_STRUCTURE']
 
         self.articles_for_blog = lambda blog, lang: [
-            p for p in self.pages if p.path.startswith(self.site_structure['blogs'][blog][lang])
+            p for p in self.pages
+            if p.path.startswith(self.site_structure['blogs'][blog][lang])
         ]  # return only blog articles
 
 
